@@ -1,0 +1,38 @@
+{
+  "machine": "Enigma I (Wehrmacht / Luftwaffe), 3 rotors",
+  "alphabet": "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  "notes": [
+    "Wiring strings give the output letter for each input A..Z at rotor position A, ring setting A (right-to-left pass through the rotor).",
+    "turnover = letter visible in the window when the rotor, on its next step, advances the rotor to its left (e.g. rotor I steps Q->R and kicks the middle rotor).",
+    "notch_letter = the letter engraved on the alphabet ring at the physical notch (cryptomuseum column 'Notch'); it differs from the window letter by a fixed offset. For software, use 'turnover'.",
+    "Double stepping: when the middle rotor is at its own turnover letter it steps again on the next key press together with the left rotor."
+  ],
+  "entry_wheel": {"ETW": "ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
+  "rotors": {
+    "I":   {"wiring": "EKMFLGDQVZNTOWYHXUSPAIBRCJ", "turnover": "Q", "notch_letter": "Y", "introduced": "1930"},
+    "II":  {"wiring": "AJDKSIRUXBLHWTMCQGZNPYFVOE", "turnover": "E", "notch_letter": "M", "introduced": "1930"},
+    "III": {"wiring": "BDFHJLCPRTXVZNYEIWGAKMUSQO", "turnover": "V", "notch_letter": "D", "introduced": "1930"},
+    "IV":  {"wiring": "ESOVPZJAYQUIRHXLNFTGKDCMWB", "turnover": "J", "notch_letter": "R", "introduced": "December 1938"},
+    "V":   {"wiring": "VZBRGITYUPSDNHLXAWMJQOFECK", "turnover": "Z", "notch_letter": "H", "introduced": "December 1938"}
+  },
+  "reflectors": {
+    "A": {"wiring": "EJMZALYXVBWFCRQUONTSPIKHGD", "note": "used before WWII"},
+    "B": {"wiring": "YRUHQSLDPXNGOKMIEBFZCWVJAT", "note": "standard wartime reflector"},
+    "C": {"wiring": "FVPJIAOYEDRZXWGCTKUQSBNMHL", "note": "used only late in the war"}
+  },
+  "test_vector": {
+    "rotors_left_to_right": ["I", "II", "III"],
+    "reflector": "B",
+    "rings": "AAA",
+    "start": "AAA",
+    "plugboard": "none",
+    "input": "AAAAA",
+    "expected_output": "BDZGO",
+    "verified": "yes, reproduced with a local simulator using exactly the strings in this file"
+  },
+  "sources": [
+    "https://en.wikipedia.org/wiki/Enigma_rotor_details",
+    "https://www.cryptomuseum.com/crypto/enigma/wiring.htm"
+  ],
+  "cross_check": "All rotor I-V, UKW A/B/C and ETW strings match character-for-character between the two sources (checked 2026-09-27). Turnover letters Q, E, V, J, Z match in both."
+}

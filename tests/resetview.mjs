@@ -1,0 +1,22 @@
+import { chromium } from 'playwright-core'
+const exe = `${process.env.HOME}/Library/Caches/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-mac-arm64/chrome-headless-shell`
+const b = await chromium.launch({ executablePath: exe, args: ['--use-angle=metal', '--enable-gpu'] })
+const p = await b.newPage({ viewport: { width: 1440, height: 900 } })
+await p.goto('http://localhost:5199/'); await p.waitForFunction(() => window.__m && window.__m.stage.spins); await p.waitForTimeout(1500)
+const cam = () => p.evaluate(() => window.__m.stage.camera.position.toArray().map(v => +v.toFixed(3)).join(','))
+const c0 = await cam()
+console.log('button at start:', await p.evaluate(() => getComputedStyle(document.querySelector('.reset-view')).visibility))
+await p.mouse.move(1000, 500); await p.mouse.down(); await p.mouse.move(1250, 420, { steps: 8 }); await p.mouse.up()
+await p.waitForTimeout(800)
+const c1 = await cam()
+const vis = () => p.evaluate(() => getComputedStyle(document.querySelector('.reset-view')).visibility)
+console.log('button after drag:', await vis())
+await p.click('.reset-view'); await p.waitForTimeout(1500)
+const c2 = await cam()
+console.log({ start: c0, dragged: c1, afterReset: c2, back: c0 === c2 }, 'button after reset:', await vis())
+// click the 3D key H on the canvas
+const pt = await p.evaluate(() => { const st = window.__m.stage; const r = st.canvas.getBoundingClientRect(); const q = st.project([0.0135, -0.11, 0.142]); return [r.left + q.x, r.top + q.y] })
+const n0 = await p.evaluate(() => window.__m.tape.in.length)
+await p.mouse.click(pt[0], pt[1]); await p.waitForTimeout(600)
+console.log('3D key click typed:', await p.evaluate(() => window.__m.tape.in))
+await b.close()
