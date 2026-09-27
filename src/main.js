@@ -35,7 +35,8 @@ const DIRECT = {
   sim: { view: 'keyboard' },
 }
 
-let lang = store.get('lang') || ((navigator.language || 'ru').toLowerCase().startsWith('ru') ? 'ru' : 'en')
+// English by default; a language picked with the switch is remembered
+let lang = store.get('lang') || 'en'
 const m = new Machine()
 const t = () => UI[lang]
 let disposers = []

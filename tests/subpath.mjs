@@ -4,7 +4,7 @@ const exe = `${process.env.HOME}/Library/Caches/ms-playwright/chromium_headless_
 const url = process.argv[2] || 'http://localhost:5197/enigma/'
 const b = await chromium.launch({ executablePath: exe, args: ['--use-angle=metal', '--enable-gpu'] })
 const ctx = await b.newContext({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 })
-await ctx.addInitScript(() => { try { localStorage.setItem('lang', 'ru') } catch {} })
+await ctx.addInitScript(l => { try { localStorage.setItem('lang', l) } catch {} }, process.env.LANGUAGE_SITE || 'en')
 const p = await ctx.newPage()
 const bad = [], errs = []
 p.on('response', r => { if (r.status() >= 400) bad.push(r.status() + ' ' + r.url()) })
